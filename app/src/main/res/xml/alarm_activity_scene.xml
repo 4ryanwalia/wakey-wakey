@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000"
+        motion:autoTransition="animateToEnd"> <KeyFrameSet>
+        <KeyAttribute
+            motion:motionTarget="@+id/alarmIcon"
+            motion:framePosition="50"
+            android:scaleX="1.2"
+            android:scaleY="1.2" />
+        <KeyAttribute
+            motion:motionTarget="@+id/alarmIcon"
+            motion:framePosition="100"
+            android:scaleX="1.0"
+            android:scaleY="1.0" />
+    </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/alarmIcon" >
+        <CustomAttribute
+            motion:attributeName="tint"
+            motion:customColorValue="@color/cartoon_yellow"/>
+    </Constraint>
+    <Constraint
+        android:id="@+id/stopAlarmButton" android:alpha="0.8" />
+</ConstraintSet>
+<ConstraintSet android:id="@+id/end">
+<Constraint android:id="@+id/alarmIcon" >
+<CustomAttribute motion:attributeName="tint"
+    motion:customColorValue="@color/cartoon_yellow"/>
+</Constraint>
+<Constraint
+android:id="@+id/stopAlarmButton"
+android:alpha="1.0" />
+<Constraint
+android:id="@+id/stopAlarmButton"
+android:scaleX="1.05"
+android:scaleY="1.05"/>
+    </ConstraintSet>
+    </MotionScene>

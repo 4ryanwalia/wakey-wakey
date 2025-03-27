@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#1E1E1E</color>
+    <color name="dark_primary">#BB86FC</color>
+    <color name="dark_primary_variant">#3700B3</color>
+    <color name="dark_secondary">#03DAC6</color>
+    <color name="dark_text_primary">#E0E0E0</color>
+    <color name="dark_text_secondary">#B0B0B0</color>
+    <color name="dark_icon_tint">#C0C0C0</color>
+    <color name="dark_button_background">@color/dark_secondary</color>
+    <color name="dark_button_text">@color/black</color>
+    <color name="cartoon_yellow">#FFEB3B</color>
+    <color name="cartoon_blue">#2196F3</color>
+    <color name="cartoon_red">#F44336</color>
+
+</resources>

@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">WakeyWakey</string>
+    <string name="add_alarm">Add Alarm</string>
+    <string name="set_alarm_time">Set Alarm Time</string>
+    <string name="select_ringtone">Select Ringtone:</string>
+    <string name="save_alarm">Save Alarm</string>
+    <string name="alarm_set_toast">Alarm set for %02d:%02d</string>
+    <string name="alarm_list_empty">No alarms yet! Tap \'+\' to add one.</string>
+    <string name="ringtone_1_label">Cartoon Boing</string>
+    <string name="ringtone_2_label">Gentle Chimes</string>
+    <string name="alarm_ringing_title">Wakey Wakey!</string>
+    <string name="stop_alarm">STOP</string>
+    <string name="alarm_notification_channel_name">Alarms</string>
+    <string name="alarm_notification_channel_description">Notifications for WakeyWakey alarms</string>
+    <string name="edit_alarm">Edit Alarm</string>
+    <string name="delete_alarm">Delete Alarm</string>
+    <string name="alarm_deleted">Alarm deleted</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="exact_alarm_permission_message">WakeyWakey needs permission to schedule exact alarms to function correctly. Please grant this permission in the app settings.</string>
+    <string name="notification_permission_message">WakeyWakey needs permission to show notifications when an alarm rings. Please grant this permission.</string>
+    <string name="go_to_settings">Go to Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="widget_label_next_alarm">WakeyWakey Next Alarm</string>
+    <string name="widget_description">Shows the next scheduled alarm</string>
+
+</resources>
