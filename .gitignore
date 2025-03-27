@@ -16,3 +16,4 @@ local.properties
 widget_preview.jpg
 
 res/drawable/widget_preview.jpg
+res/drawable/*.jpg
