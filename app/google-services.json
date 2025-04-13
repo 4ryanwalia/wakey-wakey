@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8682716856",
+    "project_id": "wakey-wakey-9352a",
+    "storage_bucket": "wakey-wakey-9352a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8682716856:android:c0ed88a3dc60ebc6fe7e4d",
+        "android_client_info": {
+          "package_name": "com.nmims.wakeywakey"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvAPIgrrvYpAtrBjSntvH4h0dfK52Ts9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

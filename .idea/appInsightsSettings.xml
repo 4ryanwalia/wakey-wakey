@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.nmims.wakeywakey" />
+                  <option name="mobileSdkAppId" value="1:8682716856:android:c0ed88a3dc60ebc6fe7e4d" />
+                  <option name="projectId" value="wakey-wakey-9352a" />
+                  <option name="projectNumber" value="8682716856" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

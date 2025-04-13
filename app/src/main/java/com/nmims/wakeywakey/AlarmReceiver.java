@@ -1,56 +1,44 @@
-package com.nmims.wakeywakey; // Changed package
+package com.nmims.wakeywakey;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.os.PowerManager;
 import android.util.Log;
 
-// No local imports needed as AlarmService, AlarmActivity are in the same package now
-// import com.nmims.wakeywakey.service.AlarmService; removed
-// import com.nmims.wakeywakey.ui.AlarmActivity; removed
-
-
 public class AlarmReceiver extends BroadcastReceiver {
+    public static final String EXTRA_ALARM_ID = "alarm_id";
+    public static final String EXTRA_RINGTONE_URI = "ringtoneUri";
 
-    private static final String TAG = "AlarmReceiver";
-    // Keep constants accessible within the package
-    static final String EXTRA_ALARM_ID = "com.nmims.wakeywakey.ALARM_ID";
-    static final String EXTRA_RINGTONE_RES_ID = "com.nmims.wakeywakey.RINGTONE_RES_ID";
-    static final String EXTRA_ALARM_TIME_STR = "com.nmims.wakeywakey.ALARM_TIME_STR";
-
+    // 🔥 Store WakeLock as a static variable
+    public static PowerManager.WakeLock wakeLock;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Alarm received!");
+        Log.d("AlarmReceiver", "Alarm triggered!");
+
+        String ringtoneUri = intent.getStringExtra(EXTRA_RINGTONE_URI);
+        if (ringtoneUri == null) {
+            ringtoneUri = "default"; // Default ringtone
+        }
 
         int alarmId = intent.getIntExtra(EXTRA_ALARM_ID, -1);
-        int ringtoneResId = intent.getIntExtra(EXTRA_RINGTONE_RES_ID, -1);
-        String alarmTimeStr = intent.getStringExtra(EXTRA_ALARM_TIME_STR);
 
+        // Start MathProblemActivity
+        Intent mathIntent = new Intent(context, MathProblemActivity.class);
+        mathIntent.putExtra(EXTRA_RINGTONE_URI, ringtoneUri);
+        mathIntent.putExtra(EXTRA_ALARM_ID, alarmId);
+        mathIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(mathIntent);
 
-        if (alarmId == -1 || ringtoneResId == -1) {
-            Log.e(TAG, "Invalid alarm data received.");
-            return;
+        // Wake up the screen when the alarm rings
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (powerManager != null) {
+            wakeLock = powerManager.newWakeLock(
+                    PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                    "wakeywakey:alarmWakeLock");
+
+            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
         }
-
-        // Start the Ringing Service
-        Intent serviceIntent = new Intent(context, AlarmService.class);
-        serviceIntent.putExtra(EXTRA_RINGTONE_RES_ID, ringtoneResId);
-        serviceIntent.putExtra(EXTRA_ALARM_ID, alarmId);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(serviceIntent);
-        } else {
-            context.startService(serviceIntent);
-        }
-
-        // Start the Alarm Activity UI
-        Intent alarmActivityIntent = new Intent(context, AlarmActivity.class);
-        alarmActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        alarmActivityIntent.putExtra(EXTRA_ALARM_TIME_STR, alarmTimeStr);
-        alarmActivityIntent.putExtra(EXTRA_ALARM_ID, alarmId);
-        context.startActivity(alarmActivityIntent);
-
     }
 }

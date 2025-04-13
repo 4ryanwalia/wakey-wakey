@@ -1,40 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root_simple"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:padding="0dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/widget_preview">
 
-    <!-- Background Image -->
-    <ImageView
-        android:id="@+id/widget_background_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/widget_preview"
-        android:contentDescription="Widget Background"/>
+<TextView
+android:id="@+id/widget_alarm_time_text_simple"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Next Alarm: --:--"
+android:textSize="18sp"
+android:textStyle="bold"
+android:textColor="@android:color/white" />
 
-    <!-- Semi-transparent Overlay (Instead of <View>) -->
-    <ImageView
-        android:id="@+id/widget_scrim"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#66000000"/>
+<TextView
+android:id="@+id/widget_countdown_text"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Time Left: --:--"
+android:textSize="16sp"
+android:textColor="@android:color/white" />
 
-    <!-- Alarm Time Display -->
-    <TextView
-        android:id="@+id/widget_alarm_time_text_simple"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:padding="8dp"
-        android:text="Loading..."
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:shadowColor="#80000000"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="2"/>
-</RelativeLayout>
+    </LinearLayout>

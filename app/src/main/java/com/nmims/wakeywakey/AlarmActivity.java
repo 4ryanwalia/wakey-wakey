@@ -7,22 +7,20 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.HapticFeedbackConstants; // Import HapticFeedbackConstants
+import android.view.HapticFeedbackConstants;
 import android.view.WindowManager;
-// Removed animation imports if using MotionLayout
-// import android.view.animation.Animation;
-// import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 public class AlarmActivity extends AppCompatActivity {
 
     private static final String TAG = "AlarmActivity";
     static final String ACTION_STOP_ALARM_SERVICE = "com.nmims.wakeywakey.ACTION_STOP_ALARM_SERVICE";
+    public static final String EXTRA_ALARM_ID = "alarm_id";
+
 
     private TextView alarmTimeText;
     private Button stopAlarmButton;
@@ -31,107 +29,87 @@ public class AlarmActivity extends AppCompatActivity {
 
     private ActionReceiver stopActionReceiver;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Apply the specific theme BEFORE setting content view
         setTheme(R.style.Theme_WakeyWakey_AlarmScreen);
-
         setContentView(R.layout.activity_alarm);
 
-        // --- Show over lock screen & turn screen on ---
+        // Ensuring screen wakes up and stays on
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
-        } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-        // --- Find Views ---
         alarmTimeText = findViewById(R.id.alarmTimeText);
         stopAlarmButton = findViewById(R.id.stopAlarmButton);
         alarmIcon = findViewById(R.id.alarmIcon);
 
-        // --- Get Data ---
-        String timeString = getIntent().getStringExtra(AlarmReceiver.EXTRA_ALARM_TIME_STR);
+        // Get the alarm time and ID from Intent// Log this
         currentAlarmId = getIntent().getIntExtra(AlarmReceiver.EXTRA_ALARM_ID, -1);
 
-        if (timeString != null) {
-            alarmTimeText.setText(timeString);
-        }
 
-        // --- Start Animations (handled by MotionLayout autoTransition or programmatically if needed) ---
-        // Removed AnimationUtils code
-
-        // --- Set Listeners ---
+        // Set button listener
         stopAlarmButton.setOnClickListener(v -> {
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS); // Added haptic feedback
+            v.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
             stopAlarm();
         });
 
-        // --- Register Receiver ---
+        // Register receiver
         registerStopReceiver();
-
         Log.d(TAG, "AlarmActivity created for alarm ID: " + currentAlarmId);
     }
-
 
     private void stopAlarm() {
         Log.d(TAG, "Stop button clicked for alarm ID: " + currentAlarmId);
         Intent stopIntent = new Intent(this, AlarmService.class);
-        stopService(stopIntent);
-        finish(); // Finish the activity
+        stopService(stopIntent); // Stop the alarm service
+        finish(); // Close the activity
     }
-
 
     private void registerStopReceiver() {
         stopActionReceiver = new ActionReceiver();
         IntentFilter filter = new IntentFilter(ACTION_STOP_ALARM_SERVICE);
-        ContextCompat.registerReceiver(this, stopActionReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
+        registerReceiver(stopActionReceiver, filter); // Register receiver
+
         Log.d(TAG, "Stop action receiver registered.");
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Unregister the receiver
         if (stopActionReceiver != null) {
             try {
                 unregisterReceiver(stopActionReceiver);
                 Log.d(TAG, "Stop action receiver unregistered.");
             } catch (IllegalArgumentException e) {
-                Log.w(TAG, "Receiver already unregistered or never registered?");
+                Log.w(TAG, "Receiver was not registered.");
             }
             stopActionReceiver = null;
         }
         Log.d(TAG, "AlarmActivity destroyed for alarm ID: " + currentAlarmId);
     }
 
-
-    // Inner class receiver for Notification Action
+    // Receiver class to handle notification actions
     public static class ActionReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && ACTION_STOP_ALARM_SERVICE.equals(intent.getAction())) {
-                int alarmId = intent.getIntExtra(AlarmReceiver.EXTRA_ALARM_ID, -1);
-                Log.d(TAG, "Received STOP action from notification for alarm ID: " + alarmId);
+                int alarmId = intent.getIntExtra(AlarmReceiver.EXTRA_ALARM_ID, -1); // Retrieve the alarm ID
+                Log.d(TAG, "Received STOP action for alarm ID: " + alarmId);
 
+                // Stop the service
                 Intent stopServiceIntent = new Intent(context, AlarmService.class);
                 context.stopService(stopServiceIntent);
 
-                // Close the notification drawer
+                // Close notification drawer
                 Intent closeDrawer = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
                 context.sendBroadcast(closeDrawer);
-
-                // Optional: If AlarmActivity might still be visible, send a broadcast
-                // to tell it to finish itself. Requires AlarmActivity to register
-                // another receiver for that specific action.
             }
         }
     }

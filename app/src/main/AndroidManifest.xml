@@ -1,14 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.nmims.wakeywakey">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.BIND_APPWIDGET" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <uses-permission android:name="android.permission.USE_EXACT_ALARM" />     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <uses-permission android:name="android.permission.VIBRATE" />             <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" /> <uses-permission android:name="android.permission.WAKE_LOCK"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,64 +26,76 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WakeyWakey"
-        tools:targetApi="tiramisu"> <activity
-        android:name=".MainActivity"
-        android:exported="true"
-        android:launchMode="singleTop"> <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-    </activity>
+        tools:targetApi="tiramisu">
 
+        <!-- LOGIN SCREEN AS ENTRY POINT -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- MAIN ACTIVITY -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:parentActivityName=".LoginActivity" />
+
+        <!-- SET ALARM ACTIVITY -->
         <activity
             android:name=".SetAlarmActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="adjustResize"/> <activity
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity android:name=".MathProblemActivity" />
+
+        <!-- ALARM ACTIVITY -->
+        <activity
             android:name=".AlarmActivity"
             android:exported="false"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity=""
             android:theme="@style/Theme.WakeyWakey.AlarmScreen"
-            android:showOnLockScreen="true"  />
+            android:showOnLockScreen="true" />
 
-
-        <receiver
-            android:name=".AlarmReceiver"
-            android:enabled="true"
-            android:exported="false" /> <receiver
-            android:name=".BootReceiver"
-            android:enabled="true"
-            android:exported="true"> <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED" />
-            <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" /> <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+        <!-- RECEIVERS -->
+        <receiver android:name=".AlarmReceiver" android:enabled="true" android:exported="false" />
+        <receiver android:name=".BootReceiver" android:enabled="true" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".AlarmActivity$ActionReceiver"
-            android:enabled="true"
-            android:exported="false" > <intent-filter>
-            <action android:name="com.nmims.wakeywakey.ACTION_STOP_ALARM_SERVICE" />
-        </intent-filter>
+        <receiver android:name=".AlarmActivity$ActionReceiver" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="com.nmims.wakeywakey.ACTION_STOP_ALARM_SERVICE" />
+            </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".NextAlarmWidgetProvider"
-            android:exported="false"
-            android:label="@string/widget_label_next_alarm"> <intent-filter>
-            <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            <action android:name="com.nmims.wakeywakey.ACTION_WIDGET_REFRESH"/>
-        </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_next_alarm" />
+        <receiver android:name=".NextAlarmWidgetProvider" android:exported="false"
+            android:label="@string/widget_label_next_alarm">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.nmims.wakeywakey.ACTION_WIDGET_REFRESH"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_info_next_alarm" />
         </receiver>
-        <service
-            android:name=".AlarmService"
+
+        <!-- ALARM SERVICE -->
+        <service android:name=".AlarmService"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="mediaPlayback"/> </application>
+            android:foregroundServiceType="mediaPlayback"/>
+
+    </application>
 
 </manifest>
