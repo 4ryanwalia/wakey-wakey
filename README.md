@@ -48,9 +48,9 @@ When an alarm triggers:
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="![1](https://github.com/user-attachments/assets/4626fd37-623a-4f71-ad35-6849f68e24e5)" alt="Alarm Screen" width="250"/>
-  <img src="![2](https://github.com/user-attachments/assets/0ed15c5d-7d35-4731-975a-e8550f62d3ca)" alt="Set Alarm" width="250"/>
-  <img src= ![3](https://github.com/user-attachments/assets/d23ef233-3623-446e-9e91-fa35c1b1164c) alt="Math Puzzle" width="250"/>
+  <img src="https://github.com/user-attachments/assets/4626fd37-623a-4f71-ad35-6849f68e24e5" alt="Alarm Screen" width="250"/>
+  <img src="https://github.com/user-attachments/assets/0ed15c5d-7d35-4731-975a-e8550f62d3ca" alt="Set Alarm" width="250"/>
+  <img src="https://github.com/user-attachments/assets/d23ef233-3623-446e-9e91-fa35c1b1164c" alt="Math Puzzle" width="250"/>
 </p>
 
 
